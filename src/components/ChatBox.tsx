@@ -16,6 +16,7 @@ interface ChatBoxProps {
 }
 
 export default function ChatBox({ ticketId, initialMessages = [], onSendMessage }: ChatBoxProps) {
+  void ticketId;
   const [messages, setMessages] = useState<Message[]>(initialMessages);
   const [newMessage, setNewMessage] = useState('');
 
