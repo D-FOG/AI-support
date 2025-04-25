@@ -22,6 +22,7 @@ export default function NewTicket() {
   };
 
   if (!user) {
+    router.push('/login');
     return (
       <div className="flex justify-center items-center h-[calc(100vh-4rem)]">
         <p className="text-gray-500">Please log in to create a ticket.</p>

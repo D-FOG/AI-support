@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface Message {
   id: string;
@@ -13,11 +13,21 @@ interface ChatBoxProps {
   ticketId: string;
   initialMessages?: Message[];
   onSendMessage?: (message: string) => void;
+  onClose?: () => void;
 }
 
-export default function ChatBox({ ticketId, initialMessages = [], onSendMessage }: ChatBoxProps) {
+export default function ChatBox({ ticketId, initialMessages = [], onSendMessage, onClose }: ChatBoxProps) {
   void ticketId;
-  const [messages, setMessages] = useState<Message[]>(initialMessages);
+  const [messages, setMessages] = useState<Message[]>([]);
+
+  // Initialize messages when component mounts or ticketId changes
+  useEffect(() => {
+    setMessages(initialMessages);
+    return () => {
+      setMessages([]);
+      setNewMessage('');
+    };
+  }, [ticketId, initialMessages]);
   const [newMessage, setNewMessage] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -53,7 +63,15 @@ export default function ChatBox({ ticketId, initialMessages = [], onSendMessage 
   };
 
   return (
-    <div className="flex flex-col h-[600px] bg-white rounded-lg shadow">
+    <div className="flex flex-col h-[600px] bg-white rounded-lg shadow relative">
+        <button
+          onClick={onClose}
+          className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 p-2"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+          </svg>
+        </button>
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.map((message) => (
           <div

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useAuthStore } from '@/store/authStore';
 import TicketCard, { Ticket } from '@/components/TicketCard';
 import ChatBox from '@/components/ChatBox';
+import Link from 'next/link';
 
 // Dummy data for demonstration
 const dummyTickets: Ticket[] = [
@@ -49,12 +50,12 @@ export default function CustomerDashboard() {
           </h2>
         </div>
         <div className="mt-4 flex md:mt-0 md:ml-4">
-          <a
+          <Link
             href="/tickets/new"
             className="ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Create New Ticket
-          </a>
+          </Link>
         </div>
       </div>
 
@@ -93,6 +94,7 @@ export default function CustomerDashboard() {
                   timestamp: selectedTicket.lastUpdated,
                 },
               ]}
+              onClose={() => setSelectedTicket(null)}
             />
           ) : (
             <div className="bg-gray-50 rounded-lg p-6 text-center text-gray-500">
